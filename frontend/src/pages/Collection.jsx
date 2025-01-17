@@ -91,7 +91,7 @@ const Collection = () => {
 
     applyFilter();
 
-  },[category,subCategory,search,showSearch])
+  },[category,subCategory,search,showSearch,products])
 
   // [] dependency array
 
