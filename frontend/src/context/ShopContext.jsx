@@ -21,6 +21,8 @@ const ShopContextProvider = (props) => {
 
     const [products,setProducts] = useState([])
 
+    const [userData,setUserData] = useState(false)
+
 
     const [token,setToken] = useState('')
     
@@ -198,6 +200,42 @@ const ShopContextProvider = (props) => {
      }
 
 
+
+     const loadUserProfileData = async () => {
+
+        try {
+
+            const {data} = await axios.get(backendUrl + '/api/user/get-profile',{headers:{token}})
+
+            if (data.success) {
+               setUserData(data.userData) 
+            }
+            else{
+                toast.error(data.message)
+            }
+            
+        } catch (error) {
+            console.log(error)
+            toast.error(error.message)
+        }
+
+     }
+
+
+     useEffect(()=>{
+
+        if (token) {
+
+            loadUserProfileData()
+        }
+        else{
+            setUserData(false)
+        }
+
+     },[token])
+
+
+
      useEffect(()=>{
 
         getProductData()
@@ -236,7 +274,10 @@ const ShopContextProvider = (props) => {
         backendUrl,
         token,
         setToken,
-        setCartItems
+        setCartItems,
+        userData,
+        setUserData,
+        loadUserProfileData
 
 
 
